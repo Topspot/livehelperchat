@@ -13,7 +13,7 @@
 
 <?php if ($leaveamessage == false || ($forceoffline === false && erLhcoreClassChat::isOnline($department,false,array('ignore_user_status'=> (int)erLhcoreClassModelChatConfig::fetch('ignore_user_status')->current_value, 'online_timeout' => (int)erLhcoreClassModelChatConfig::fetch('sync_sound_settings')->data['online_timeout']))) === true) : ?>
 
-<h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat','Fill out this form to start a chat');?></h1>
+<!--<h1><?php // echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat','Fill out this form to start a chat');?></h1>-->
 
 <form id="form-start-chat" method="post" action="<?php echo erLhcoreClassDesign::baseurl('chat/startchat')?><?php $department !== false ? print '/(department)/'.$department : ''?><?php $input_data->priority !== false ? print '/(priority)/'.$input_data->priority : ''?><?php $input_data->vid !== false ? print '/(vid)/'.htmlspecialchars($input_data->vid) : ''?><?php $input_data->hash_resume !== false ? print '/(hash_resume)/'.htmlspecialchars($input_data->hash_resume) : ''?>" onsubmit="return lhinst.addCaptcha('<?php echo time()?>',$(this))">
 
@@ -24,8 +24,8 @@
 		<?php if (in_array('username', $input_data->hattr)) : ?>
 			<input type="hidden" name="Username" value="<?php echo htmlspecialchars($input_data->username);?>" />
 		<?php else : ?>
-			<label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat','Name');?><?php if (isset($start_data_fields['name_require_option']) && $start_data_fields['name_require_option'] == 'required') : ?>*<?php endif;?></label>
-			<input type="text" name="Username" value="<?php echo htmlspecialchars($input_data->username);?>" />
+			<!--<label><?php // echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat','Name');?><?php // if (isset($start_data_fields['name_require_option']) && $start_data_fields['name_require_option'] == 'required') : ?>*<?php // endif;?></label>-->
+			<input type="hidden" name="Username" value="<?php echo htmlspecialchars($input_data->username);?>" />
 		<?php endif; ?>
 	<?php endif; ?>
 <?php endif; ?>
@@ -38,7 +38,7 @@
 			<input type="hidden" name="Email" value="<?php echo htmlspecialchars($input_data->email);?>" />
 		<?php else : ?>
 			<label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat','E-mail');?><?php if (isset($start_data_fields['email_require_option']) && $start_data_fields['email_require_option'] == 'required') : ?>*<?php endif;?></label>
-			<input type="text" name="Email" value="<?php echo htmlspecialchars($input_data->email);?>" />
+                        <input type="text" name="Email" value="<?php echo htmlspecialchars($input_data->email);?>" />
 		<?php endif; ?>
 	<?php endif; ?>
 <?php endif; ?>
@@ -79,7 +79,7 @@
 <?php include_once(erLhcoreClassDesign::designtpl('lhchat/part/accept_tos.tpl.php'));?>
 
 <ul class="button-group radius startchat">
-  <li><input type="submit" class="small secondary button" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat','Start chat');?>" name="StartChatAction" /></li>
+    <li><input style=" background: transparent;  border: none !important; font-size:0;" type="submit" class="small secondary button" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat','Start chat');?>" name="StartChatAction" /></li>
   <?php if ( erLhcoreClassModelChatConfig::fetch('reopen_chat_enabled')->current_value == 1 && ($reopenData = erLhcoreClassChat::canReopenDirectly(array('reopen_closed' => erLhcoreClassModelChatConfig::fetch('allow_reopen_closed')->current_value))) !== false ) : ?>
   <li><input type="button" class="small success button"  value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/chatnotexists','Resume chat');?>" onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('chat/reopen')?>/<?php echo $reopenData['id']?>/<?php echo $reopenData['hash']?><?php if ( isset($modeAppend) && $modeAppend != '' ) : ?>/(embedmode)/embed<?php endif;?>'"></li>
   <?php endif; ?>
@@ -99,3 +99,7 @@
 <?php endif;?>
 
 <?php endif;?>
+        <script type="text/javascript" >            
+            $('#form-start-chat input[name="Username"]').val('Visitor');
+            $('#form-start-chat').submit();
+            </script>
